@@ -1,0 +1,9 @@
+---
+websocket:
+  - ip: 192.168.0.8
+  - port: 12543
+
+default.download_path: down
+
+tmp_path: tmp
+max_thread: 50

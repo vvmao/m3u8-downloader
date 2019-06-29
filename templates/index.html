@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery.min.js"></script>
+    <script>
+        var uri = "ws://cms.tp7.com:12543/";
+        var ws = new WebSocket(uri);
+        var status_dict = {
+            "0": "未初始化",
+            "1": "初始化中",
+            "2": "初始化完成",
+            "3": "初始化失败",
+            "4": "下载中",
+            "5": "下载暂停",
+            "6": "下载完成",
+            "7": "下载失败",
+        };
+        ws.onmessage = function (e) {
+            data = JSON.parse(e.data)
+            if (data.status != 0) {
+
+            } else {
+                if (data.data.length > 0) {
+                    var item = {}
+                    for (var i = 0; i < data.data.length; i++) {
+                        item = data.data[i];
+                        if ($("#" + item.gid).length === 0) {
+                            var ht = '<div id="' + item.gid + '"><span>进度:</span> <span class="speed"></span> <span>filename:</span> <span class="filename"></span> <span>status</span> <span class="status"></span> <br></div>';
+                            $("body").append(ht)
+                        }
+                        var $this = $("#" + item.gid);
+                        $this.find(".speed").html(item.downloadSpeed.toFixed(2))
+                        $this.find(".filename").html(item.title)
+                        $this.find(".status").html(status_dict[item.status])
+                    }
+                }
+
+            }
+        };
+
+        function taskInfo(item) {
+
+        }
+
+        ws.onopen = function () {
+            var data = {
+                "type": "cmd",
+                "cmd": "getTaskList",
+                "args": []
+            };
+            setInterval(function () {
+                ws.send(JSON.stringify(data));
+            }, 1000)
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+
+
+</body>
+</html>

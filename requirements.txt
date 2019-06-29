@@ -1,0 +1,9 @@
+certifi==2019.3.9
+chardet==3.0.4
+idna==2.8
+pycrypto==2.6.1
+requests==2.21.0
+shellescape==3.4.1
+simple-websocket-server==0.4.0
+urllib3==1.24.1
+web.py==0.40.dev1
